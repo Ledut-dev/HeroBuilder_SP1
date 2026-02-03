@@ -1,29 +1,45 @@
 public class HeroBuilder_SP1 {
 
+    String name = "Ledut";
+    int healthPoints = 85;
+    int maxHealth = 100;
+    int level = 1;
+    int experiencePoints = 150;
+    boolean canLevelUp = false;
+    double gold = 250.50;
+    boolean isAlive = true;
+    String specialization = "R";
+
+    String[] inventory = {"Dagger", "Thieves Kit", "Smokebomb"};
+
    public void main(){
-
-        String name = "Ledut";
-        int healthPoints = 85;
-        int maxHealth = 100;
-        int level = 1;
-        int experiencePoints = 150;
-        double gold = 250.50;
-        boolean isAlive = true;
-        String specialization = "R";
-
-        String[] inventory = {"Dagger", "Thieves Kit", "Smokebomb"};
-
 
         printCharacterSheet();
 
+        takeDamage(30);
+        heal(20);
+        addXP(345);
 
+       System.out.println();
 
-        for (int i = 0; i < inventory.length; i++){
-
-            System.out.println("- "+inventory[i]);
-
+        if (removeGold(100.0)){
+            System.out.println("Bought a potion!");
+        }
+        else {
+            System.out.println("Not enough gold!");
         }
 
+       System.out.println();
+       System.out.println("Health: " + getHealthPercentage() + "%");
+
+        if (isHealthCritical()){
+            System.out.println("WARNING: Find a healer!");
+        }
+
+       System.out.println();
+        printCharacterSheet();
+       System.out.println();
+       printInventory();
 
 
 }
@@ -32,15 +48,14 @@ public class HeroBuilder_SP1 {
     public void printCharacterSheet(){
 
         System.out.println("======= Character Sheet =======");
-        System.out.println("Name: "+name);
-        System.out.println("Class: "+specialization);
-        System.out.println("Level: "+level);
-        System.out.println("Health: "+healthPoints+"/"+maxHealth);
-        System.out.println("XP: "+experiencePoints);
-        System.out.println("Gold: "+gold);
-        System.out.println("Alive: "+isAlive);
+        System.out.println("Name: "+ name);
+        System.out.println("Class: " +specialization);
+        System.out.println("Level: "+ level);
+        System.out.println("Health: "+ healthPoints+"/"+maxHealth);
+        System.out.println("XP: "+ experiencePoints + "/" + (level*10));
+        System.out.println("Gold: "+ gold);
+        System.out.println("Alive: "+ isAlive);
         System.out.println();
-        System.out.println("Inventory ("+inventory.length+" items):");
 
     }
 
@@ -48,49 +63,89 @@ public class HeroBuilder_SP1 {
     void takeDamage(int amount){
 
         if (amount > healthPoints){
-            System.out.println("You've have died");
+            System.out.println("You have died");
             isAlive = false;
+        }
+        else {
+            healthPoints -= amount;
         }
 
     }
-    //Increases health (max to maxHealth)
-    void heal(){
 
+    //Increases health (max to maxHealth)
+    void heal(int amount){
+
+       if ((amount + healthPoints) > maxHealth){
+           healthPoints = maxHealth;
+       }
+       else {
+           healthPoints += amount;
+       }
+    }
+
+    //Adds gold
+    void addGold(double amount) {
+       gold += amount;
     }
 
     //Removes gold, returns true if success, false if not enough gold
-    boolean removeGold(){
-
+    boolean removeGold(double amount){
+       if ((amount - gold) < 0){
+           return false;
+       }
+       else {
+           gold -= amount;
+           return true;
+       }
     }
 
     //Adds XP, checks for level up
-    void addXP(){
-
+    void addXP(int amount){
+       if ((amount + experiencePoints) >= level*10){
+           System.out.println("Ready to level up!");
+           experiencePoints += amount;
+           canLevelUp = true;
+       }
+       else {
+           experiencePoints += amount;
+       }
     }
 
     //Increases level, reset XP, increases maxHealth
     void levelUp(){
-
+       if (canLevelUp){
+           canLevelUp = false;
+           experiencePoints = experiencePoints - (level*10);
+           level++;
+           maxHealth += level*5;
+           System.out.println("Leveled up! You are now level: " + level);
+       }
+       else {
+           System.out.println("You do not have enough experience to level up");
+       }
     }
 
     //Returns true if health > 25%
     boolean isHealthCritical(){
-
+       return (getHealthPercentage() < 25);
     }
 
     //Returns true if health > 0
-    boolean isAlive(){
-
+    boolean isAlive() {
+       return healthPoints > 0;
     }
 
-    //Returns health as percent og maxHealth
+    //Returns health as percent of maxHealth
     double getHealthPercentage(){
-
+            return (double) (healthPoints*100)/maxHealth;
     }
 
     //Prints all items
-    void printInventory(){
-
+    void printInventory() {
+        System.out.println("Inventory (" + inventory.length + " items):");
+        for (String s : inventory) {
+            System.out.println("- " + s);
+        }
     }
 
 
