@@ -16,7 +16,8 @@ public class HeroBuilder_SP1 {
 
         printCharacterSheet();
 
-        takeDamage(30);
+
+       takeDamage(30);
         heal(20);
         addXP(345);
 
@@ -148,6 +149,26 @@ public class HeroBuilder_SP1 {
         }
     }
 
+    //Extra challenges for phase 3 of SP1
 
+    //Returns true if item is present in inventory
+    boolean hasItem(String item){
+       boolean hasItem = false;
+       for (String items : inventory){
+           if (item.equals(items)){
+               hasItem = true;
+           }
+       }
+       return hasItem;
+    }
+
+    //Adds item to inventory
+    void addItem(String item){
+
+    }
+    //Remove item from inventory
+    void removeItem(String item){
+
+    }
 
 }
