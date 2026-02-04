@@ -1,25 +1,45 @@
-public class Character {
+import java.util.ArrayList;
+import java.util.Arrays;
 
+public class Character {
 
     int HP = 100;
     int maxHealth = 100;
     int level = 1;
     int experiencePoints = 0;
-    boolean canLevelUp = false;
     double gold = 0;
+    boolean canLevelUp = false;
     boolean isAlive = true;
-    boolean weaponEquipped = false;
-    boolean[] armorEquipped = {false, false, false, false};
-    String[] inventory = new String[10];
+    ArrayList<Item> inventory = new ArrayList<Item>();
+    Weapon equippedWeapon;
+    Armor equippedArmor;
     String name;
     String currentClass;
 
+    //Constructor
     public Character(String characterName, String characterClass){
 
         name = characterName;
         currentClass = characterClass;
+        switch (characterClass) {
+            case "R":
+                Weapon starterDagger = new Weapon("Starting Dagger", 10, 100, 5, 50);
+                equippedWeapon = starterDagger;
+                break;
+            case "W":
+                Weapon starterSword = new Weapon("Starting Sword", 10, 100, 10, 50);
+                equippedWeapon = starterSword;
+                break;
+            case "M":
+                Weapon starterStaff = new Weapon("Starting Staff", 10, 100, 8, 50);
+                equippedWeapon = starterStaff;
+                break;
+            default:
+                System.out.println("Invalid class. Please pick on of the following options - R (rogue) / W (warrior) / M ( mage)");
+        }
     }
 
+    //main
     public void main(){}
 
     //Print character sheet / all stats
@@ -29,16 +49,20 @@ public class Character {
         System.out.println("Name: "+ name);
         System.out.println("Class: " + currentClass);
         System.out.println("Level: "+ level);
-        System.out.println("Health: "+ HP + "/" +maxHealth);
+        System.out.println("Health: "+ HP + "/" + maxHealth);
         System.out.println("XP: "+ experiencePoints + "/" + (level*10));
         System.out.println("Gold: "+ gold);
         System.out.println("Alive: "+ isAlive);
 
     }
 
+    void sellItem(Item item){
+
+        gold += item.value;
+    }
 
     //Attack another character, using equipped weapon if one is present
-    void attack(Character name){
+    void attack(Character target){
 
     }
 
@@ -47,7 +71,6 @@ public class Character {
 
         if (amount > HP){
             System.out.println("You have died");
-            isAlive = false;
         }
         else {
             HP -= amount;
@@ -108,87 +131,5 @@ public class Character {
         }
     }
 
-    //Returns true if health > 25%
-    boolean isHealthCritical(){
-        return (getHealthPercentage() < 25);
-    }
-
-    //Returns true if health > 0
-    boolean isAlive() {
-        return HP > 0;
-    }
-
-    //Returns health as percent of maxHealth
-    double getHealthPercentage(){
-        return (double) (HP*100)/maxHealth;
-    }
-
-    //Prints all items
-    void printInventory() {
-        int itemCount = 0;
-        for (String s : inventory){
-            if (!s.equals("Empty")){
-                itemCount++;
-            }
-        }
-        System.out.println("Inventory (" + itemCount + " / " + inventory.length + ")");
-        for (String s : inventory) {
-            if (!(s.equals("Empty"))){
-                System.out.println("- " + s);
-            }
-        }
-    }
-
-    //Extra challenges for phase 3 of SP1
-
-    //Returns true if item is present in inventory
-    boolean hasItem(String item){
-        boolean hasItem = false;
-        for (String items : inventory){
-            if (item.equals(items)){
-                hasItem = true;
-            }
-        }
-        return hasItem;
-    }
-
-    //Adds item to inventory
-    void addItem(String item){
-
-        boolean itemAdded = false;
-        while (!itemAdded) {
-            for (int i = 0; i < inventory.length && !itemAdded; i++) {
-                if (inventory[i].equals("Empty")) {
-                    inventory[i] = item;
-                    itemAdded = true;
-                }
-            }
-        }
-        if (itemAdded){
-            System.out.println(item + " has been added to the inventory");
-        }
-        else {
-            System.out.println("Not enough space in inventory");
-        }
-
-    }
-
-    //Remove item from inventory
-    void removeItem(String item){
-
-        boolean itemRemoved = false;
-        for (int i = 0 ; i < inventory.length ; i++){
-            if (inventory[i].equals(item)){
-                inventory[i] = "Empty";
-                itemRemoved = true;
-            }
-        }
-        if (itemRemoved){
-            System.out.println(item + " has been removed to the inventory");
-        }
-        else {
-            System.out.println("You are not currently carrying " + item);
-        }
-    }
 
 }

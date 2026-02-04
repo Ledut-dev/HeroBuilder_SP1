@@ -3,15 +3,13 @@ public class Armor {
     String name;
     int defense;
     int durability;
-    int armorSlot;
     boolean isEquipped = false;
 
-    public Armor(String name, int defense, int durability, int armorSlot){
+    public Armor(String name, int defense, int durability){
 
         this.name = name;
         this.defense = defense;
         this.durability = durability;
-        this.armorSlot = armorSlot;
 
     }
 

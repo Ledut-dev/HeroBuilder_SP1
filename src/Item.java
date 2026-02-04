@@ -1,6 +1,24 @@
 public class Item {
 
-    public Item(String name){
+    String name;
+    double weight;
+    double value;
 
+    //Constructor
+    public Item(String name, double weight, double value){
+
+        this.name = name;
+        this.weight = weight;
+        this.value = value;
     }
+
+
+    void main(){}
+
+
+
+
+
+
+
 }

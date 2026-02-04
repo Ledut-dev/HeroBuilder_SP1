@@ -2,13 +2,15 @@ public class Main {
 
     public void main(){
 
-        Character hero = new Character("Ledut", "R");
-        Weapon newWeapon = new Weapon("Sword", 5, 20);
+        Character hero = new Character("Ledut", "M");
+        Item rock = new Item("rock", 20, 20);
 
-        hero.printCharacterSheet();
+        hero.inventory.add(rock);
 
-        System.out.println(hero.weaponEquipped);
-        newWeapon.equip();
+        for (Item i : hero.inventory){
+            System.out.println(i.name);
+        }
 
+        System.out.println(hero.equippedWeapon.name);
     }
 }

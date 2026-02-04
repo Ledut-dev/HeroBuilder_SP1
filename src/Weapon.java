@@ -1,31 +1,19 @@
-public class Weapon extends EquippableItem{
+public class Weapon{
 
         String name;
         int damage;
         int durability;
-        boolean isEquipped = false;
+        int weight;
+        double value;
 
-        public Weapon(String name, int damage, int durability){
+        public Weapon(String name, int damage, int durability, int weight, double value){
 
             this.name = name;
             this.damage = damage;
             this.durability = durability;
-
+            this.weight = weight;
+            this.value = value;
         }
 
-        void main(){}
-
-        void equip(){
-            if (!isEquipped){
-                isEquipped = true;
-                System.out.println(name + " has been equipped");
-
-            }
-            else {
-                isEquipped = false;
-                System.out.println(name + " has been unequipped");
-            }
-
-        }
 
 }
