@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class HeroBuilder_SP1 {
 
     String name = "Ledut";
