@@ -3,8 +3,8 @@ public class Armor {
     String name;
     int defense;
     int durability;
-    boolean isEquipped = false;
 
+    //Constructor
     public Armor(String name, int defense, int durability){
 
         this.name = name;
@@ -13,17 +13,5 @@ public class Armor {
 
     }
 
-    void main(){}
-
-    void equip(){
-        if (!isEquipped){
-            isEquipped = true;
-            System.out.println(name + " has been equipped");
-        }
-        else {
-            isEquipped = false;
-            System.out.println(name + " has been unequipped");
-        }
-    }
 
 }

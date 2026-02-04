@@ -21,18 +21,26 @@ public class Character {
 
         name = characterName;
         currentClass = characterClass;
+
+        //Assigning starting equipment depending on selected class
         switch (characterClass) {
             case "R":
-                Weapon starterDagger = new Weapon("Starting Dagger", 10, 100, 5, 50);
+                Weapon starterDagger = new Weapon("Starting Dagger", 10, 100);
                 equippedWeapon = starterDagger;
+                Armor leatherArmor = new Armor("Leather Armor", 4, 100);
+                equippedArmor = leatherArmor;
                 break;
             case "W":
-                Weapon starterSword = new Weapon("Starting Sword", 10, 100, 10, 50);
+                Weapon starterSword = new Weapon("Starting Sword", 10, 100);
                 equippedWeapon = starterSword;
+                Armor plateArmor = new Armor("Plate Armor", 6, 100);
+                equippedArmor = plateArmor;
                 break;
             case "M":
-                Weapon starterStaff = new Weapon("Starting Staff", 10, 100, 8, 50);
+                Weapon starterStaff = new Weapon("Starting Staff", 10, 100);
                 equippedWeapon = starterStaff;
+                Armor clothArmor = new Armor("Cloth Armor", 2, 100);
+                equippedArmor = clothArmor;
                 break;
             default:
                 System.out.println("Invalid class. Please pick on of the following options - R (rogue) / W (warrior) / M ( mage)");
@@ -56,25 +64,66 @@ public class Character {
 
     }
 
+    //Sells item currently in inventory for gold
     void sellItem(Item item){
-
-        gold += item.value;
-    }
-
-    //Attack another character, using equipped weapon if one is present
-    void attack(Character target){
-
-    }
-
-    //Reduce health, checking if dead
-    void takeDamage(int amount){
-
-        if (amount > HP){
-            System.out.println("You have died");
+        if (inventory.contains(item)){
+            inventory.remove(item);
+            gold += item.value;
+            System.out.println(item.name + " sold - gained "+ item.value);
         }
         else {
-            HP -= amount;
+            System.out.println("You don't have this item in your inventory");
         }
+
+    }
+
+    //Prints current inventory, including equipped weapon / armor
+    void printInventory(){
+        System.out.println("Weapon: " + equippedWeapon.name +" | Damage: " + equippedWeapon.damage +" | Durability: " + equippedWeapon.durability);
+        System.out.println("Armor: " + equippedArmor.name +" | Defense: " + equippedArmor.defense +" | Durability: " + equippedArmor.durability);
+        System.out.println();
+
+        for (Item item : inventory){
+            System.out.println("- " + item.name + " | Value: " + item.value + "G" + " | Weight: " + item.weight);
+        }
+    }
+
+    //Attack another character, using equipped weapon if one is present. Also handles durability of both attacker and target.
+    void attack(Character target){
+        int damage = equippedWeapon.damage;
+
+        if (target.HP < damage){
+            equippedWeapon.durability -= damage/2;
+            kill(target);
+        }
+        else {
+            target.HP -= damage-target.equippedArmor.defense;
+            //Not having a double is fine even if dividing by 4, I prefer taking less durability damage rounded down.
+            target.equippedArmor.durability -= damage/4;
+            equippedWeapon.durability -= damage/2;
+        }
+    }
+
+    //Handles on-kill/defeating enemies, adding XP, items and gold, displaying victory text.
+    void kill(Character target){
+
+        double goldDropped = target.gold/4;
+        int xpDropped = target.level*5;
+
+        addGold(goldDropped);
+        addXP(xpDropped);
+
+        System.out.println("======= Victory =======");
+        System.out.println(target.name + " was defeated!");
+        System.out.println();
+        System.out.println("You gained:");
+        System.out.println(goldDropped + " Gold");
+        System.out.println(xpDropped + " XP");
+        System.out.println();
+        System.out.println("Total gold: " + gold);
+        System.out.println("Total XP: " + experiencePoints + " / " + level*10);
+
+        target = null;
 
     }
 
@@ -131,5 +180,8 @@ public class Character {
         }
     }
 
+    void addItem(Item item) {
+        inventory.add(item);
+    }
 
 }

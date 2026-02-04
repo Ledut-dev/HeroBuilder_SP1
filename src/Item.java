@@ -13,9 +13,6 @@ public class Item {
     }
 
 
-    void main(){}
-
-
 
 
 

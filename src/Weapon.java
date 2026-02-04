@@ -3,16 +3,13 @@ public class Weapon{
         String name;
         int damage;
         int durability;
-        int weight;
-        double value;
 
-        public Weapon(String name, int damage, int durability, int weight, double value){
+        //Constructor
+        public Weapon(String name, int damage, int durability){
 
             this.name = name;
             this.damage = damage;
             this.durability = durability;
-            this.weight = weight;
-            this.value = value;
         }
 
 
