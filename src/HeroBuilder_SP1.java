@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class HeroBuilder_SP1 {
 
     String name = "Ledut";
@@ -10,10 +13,13 @@ public class HeroBuilder_SP1 {
     boolean isAlive = true;
     String specialization = "R";
 
-    String[] inventory = {"Dagger", "Thieves Kit", "Smokebomb"};
+    String[] inventory = new String[10];
 
    public void main(){
 
+       for (int i = 0 ; i < inventory.length ; i++){
+           inventory[i] = "Empty";
+       }
         printCharacterSheet();
 
 
@@ -38,10 +44,25 @@ public class HeroBuilder_SP1 {
         }
 
        System.out.println();
-        printCharacterSheet();
-       System.out.println();
-       printInventory();
 
+        addItem("Dagger");
+
+       System.out.println();
+
+        addItem("Smoke Bomb");
+
+       System.out.println();
+
+        printInventory();
+
+       System.out.println();
+
+        removeItem("Smoke Bomb");
+
+       System.out.println();
+
+        printInventory();
+        removeItem("Crossbow");
 
 }
 
@@ -143,9 +164,17 @@ public class HeroBuilder_SP1 {
 
     //Prints all items
     void printInventory() {
-        System.out.println("Inventory (" + inventory.length + " items):");
-        for (String s : inventory) {
-            System.out.println("- " + s);
+       int itemCount = 0;
+       for (String s : inventory){
+           if (!s.equals("Empty")){
+               itemCount++;
+           }
+       }
+        System.out.println("Inventory (" + itemCount + " / " + inventory.length + ")");
+          for (String s : inventory) {
+              if (!(s.equals("Empty"))){
+                  System.out.println("- " + s);
+              }
         }
     }
 
@@ -165,10 +194,40 @@ public class HeroBuilder_SP1 {
     //Adds item to inventory
     void addItem(String item){
 
+       boolean itemAdded = false;
+       while (!itemAdded) {
+           for (int i = 0; i < inventory.length && !itemAdded; i++) {
+               if (inventory[i].equals("Empty")) {
+                   inventory[i] = item;
+                   itemAdded = true;
+               }
+           }
+       }
+       if (itemAdded){
+           System.out.println(item + " has been added to the inventory");
+       }
+       else {
+           System.out.println("Not enough space in inventory");
+       }
+
     }
+
     //Remove item from inventory
     void removeItem(String item){
 
+       boolean itemRemoved = false;
+        for (int i = 0 ; i < inventory.length ; i++){
+            if (inventory[i].equals(item)){
+                inventory[i] = "Empty";
+                itemRemoved = true;
+            }
+        }
+        if (itemRemoved){
+            System.out.println(item + " has been removed to the inventory");
+        }
+        else {
+            System.out.println("You are not currently carrying " + item);
+        }
     }
 
 }
