@@ -20,6 +20,7 @@ public class Character {
     String name;
     String currentClass;
 
+
     //Constructor
     public Character(String characterName, String characterClass){
 
@@ -29,19 +30,19 @@ public class Character {
         //Assigning starting equipment depending on selected class
         switch (characterClass) {
             case "Rogue":
-                Weapon starterDagger = new Weapon("Starting Dagger", 10, 100);
+                Weapon starterDagger = new Weapon("Starting Dagger", 20, 100);
                 equippedWeapon = starterDagger;
-                Armor leatherArmor = new Armor("Leather Armor", 4, 100);
+                Armor leatherArmor = new Armor("Leather Armor", 3, 100);
                 equippedArmor = leatherArmor;
                 break;
             case "Warrior":
-                Weapon starterSword = new Weapon("Starting Sword", 10, 100);
+                Weapon starterSword = new Weapon("Starting Sword", 20, 100);
                 equippedWeapon = starterSword;
-                Armor plateArmor = new Armor("Plate Armor", 6, 100);
+                Armor plateArmor = new Armor("Plate Armor", 4, 100);
                 equippedArmor = plateArmor;
                 break;
             case "Mage":
-                Weapon starterStaff = new Weapon("Starting Staff", 10, 100);
+                Weapon starterStaff = new Weapon("Starting Staff", 20, 100);
                 equippedWeapon = starterStaff;
                 Armor clothArmor = new Armor("Cloth Armor", 2, 100);
                 equippedArmor = clothArmor;
@@ -64,7 +65,7 @@ public class Character {
     void combat(Character enemy){
 
         combatActive = true;
-        String action = "";
+        int action = 0;
         int roundCounter = 1;
 
         while (combatActive){
@@ -78,50 +79,57 @@ public class Character {
             System.out.println();
 
             //If players turn
-            if (roundCounter % 2 == 1){
+            if (roundCounter % 2 == 1) {
+                boolean awaitingInput = true;
                 System.out.println("What would you like to do?");
                 System.out.println();
-                System.out.println("attack | heal | check | flee");
+                System.out.println("1 - attack | 2 - heal | 3 - check | 4 - flee");
                 System.out.println();
                 System.out.println();
 
-                action = scanner.nextLine();
+                action = scanner.nextInt();
+                scanner.nextLine();
 
-                switch (action){
-                    case "attack":
-                        attack(enemy);
-                        if (killedTarget){
-                            combatActive = false;
-                            killedTarget = false;
-                        }
-                        break;
-                    case "heal":
-                        System.out.println("Healed for " + (level*15));
-                        heal(level*15);
-                        break;
-                    case "check":
-                        System.out.println("You check the enemies stats: ");
-                        System.out.println();
-                        enemy.printCharacterSheet();
-                        break;
-                    case "flee":
-                        if (level >= enemy.level) {
-                            System.out.println("Successfully fled the battle");
+                while (awaitingInput) {
+
+                    //handles action through player input
+                    switch (action) {
+                        case 1:
+                            attack(enemy);
+                            awaitingInput = false;
+                            if (killedTarget) {
+                                combatActive = false;
+                                killedTarget = false;
+                            }
+                            break;
+                        case 2:
+                            System.out.println("Healed for " + (level * 15));
+                            heal(level * 15);
+                            awaitingInput = false;
+                            break;
+                        case 3:
+                            System.out.println("You check the enemies stats: ");
                             System.out.println();
-                            combatActive = false;
-                        }
-                        else {
-                            System.out.println("The enemy is higher level than you, fleeing is impossible");
+                            enemy.printCharacterSheet();
+                            awaitingInput = false;
+                            break;
+                        case 4:
+                            if (level >= enemy.level) {
+                                System.out.println("Successfully fled the battle");
+                                System.out.println();
+                                combatActive = false;
+                            } else {
+                                System.out.println("The enemy is higher level than you, fleeing is impossible");
+                                System.out.println();
+                            }
+                            break;
+                        default:
+                            System.out.println("Invalid action");
                             System.out.println();
-                        }
-                        break;
-                    default:
-                        System.out.println("Invalid action");
-                        System.out.println();
+                    }
+                    roundCounter++;
                 }
-                roundCounter++;
             }
-
             //if enemies turn
             else {
                 enemy.attack(this);
@@ -191,6 +199,12 @@ public class Character {
             equippedWeapon.durability -= damage/2;
             kill(target);
             killedTarget = true;
+        }
+        else if (damage < target.equippedArmor.defense){
+            System.out.println("Couldn't break through!");
+            System.out.println(target.name + "'s " + target.equippedArmor.name + " overpowers your attack!");
+            target.equippedArmor.durability -= damage/4;
+            equippedWeapon.durability -= damage/2;
         }
         else {
             target.HP -= damage-target.equippedArmor.defense;
@@ -276,8 +290,8 @@ public class Character {
         }
     }
 
-    void addItem(Item item) {
-        inventory.add(item);
+    void addItem(String name, int weight, double value) {
+        inventory.add(new Item(name,weight,value));
     }
 
 }
