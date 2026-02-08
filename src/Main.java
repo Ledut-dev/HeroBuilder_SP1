@@ -1,10 +1,9 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
 
-    public void main(){
+    void main(){
 
         Character hero = new Character("Ledut", "Rogue");
 
@@ -35,19 +34,37 @@ public class Main {
                         hero.printInventory();
                         actionCounter++;
                         break;
+                    case 2:
+                        hero.printCharacterSheet();
+                        actionCounter++;
+                        break;
+                    case 3:
+                        int baseHeal = hero.maxHealth/4;
+                        hero.heal(baseHeal);
+                        System.out.println("Healed for: " + baseHeal + " HP");
+                        actionCounter++;
+                        break;
+                    case 4:
+                        System.out.println("Not working for now - sorry for the inconvenience");
+                        actionCounter++;
+                        break;
+                    case 5:
+                        System.out.println("Not working for now - sorry for the inconvenience");
+                        hero.printInventory();
+                        actionCounter++;
+                        break;
                     case 6:
                         if (actionCounter%2 == 0){
                             System.out.println("You found treasure!");
                             System.out.println("Found: 25 G");
                             hero.addGold(25);
-                            actionCounter++;
                         }
                         else{
                             System.out.println("A monster appears!");
                             Character goblin = new Character("Dark Goblin", "Goblin");
                             hero.combat(goblin);
-                            actionCounter++;
                         }
+                        actionCounter++;
                         break;
                     case 7:
                         hero.levelUp();
@@ -62,7 +79,6 @@ public class Main {
                     default:
                         System.out.println("Invalid action");
                         System.out.println();
-                        actionCounter++;
                 }
             }
 

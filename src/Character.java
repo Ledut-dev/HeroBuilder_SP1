@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Character {
@@ -127,8 +126,9 @@ public class Character {
                             System.out.println("Invalid action");
                             System.out.println();
                     }
-                    roundCounter++;
+
                 }
+                roundCounter++;
             }
             //if enemies turn
             else {
@@ -164,24 +164,28 @@ public class Character {
     }
 
     //Sells item currently in inventory for gold
-    void sellItem(Item item){
+    boolean sellItem(Item item){
         if (inventory.contains(item)){
             inventory.remove(item);
             gold += item.value;
             System.out.println(item.name + " sold - gained "+ item.value);
+            return true;
         }
         else {
             System.out.println("You don't have this item in your inventory");
+            return false;
         }
 
     }
 
     //Prints current inventory, including equipped weapon / armor
     void printInventory(){
+        //Print equipped weapon/armor
         System.out.println("Weapon: " + equippedWeapon.name +" | Damage: " + equippedWeapon.damage +" | Durability: " + equippedWeapon.durability);
         System.out.println("Armor: " + equippedArmor.name +" | Defense: " + equippedArmor.defense +" | Durability: " + equippedArmor.durability);
         System.out.println();
 
+        //Print inventory
         System.out.println("Inventory:");
         for (Item item : inventory){
             System.out.println("- " + item.name + " | Value: " + item.value + "G" + " | Weight: " + item.weight);
@@ -194,18 +198,21 @@ public class Character {
         System.out.println(name + " attacks " + target.name + " with their " + equippedWeapon.name);
         System.out.println();
 
+        //If target will die from hit
         if (target.HP < damage){
             System.out.println(target.name + " has been slain!");
             equippedWeapon.durability -= damage/2;
             kill(target);
             killedTarget = true;
         }
+        //If target armor defense is higher than attackers weapon attack
         else if (damage < target.equippedArmor.defense){
             System.out.println("Couldn't break through!");
             System.out.println(target.name + "'s " + target.equippedArmor.name + " overpowers your attack!");
             target.equippedArmor.durability -= damage/4;
             equippedWeapon.durability -= damage/2;
         }
+        //Resolve damage normally
         else {
             target.HP -= damage-target.equippedArmor.defense;
             //Not having a double is fine even if dividing by 4, I prefer taking less durability damage rounded down.
@@ -221,9 +228,7 @@ public class Character {
         double goldDropped = target.gold/4;
         int xpDropped = target.level*5;
 
-        addGold(goldDropped);
-        addXP(xpDropped);
-
+        //Print victory screen and earned gold/XP
         System.out.println("======= Victory =======");
         System.out.println(target.name + " was defeated!");
         System.out.println();
@@ -232,7 +237,10 @@ public class Character {
         System.out.println(xpDropped + " XP");
         System.out.println();
         System.out.println("Total gold: " + gold);
-        System.out.println("Total XP: " + experiencePoints + " / " + level*10);
+        System.out.println("Total XP: " + (experiencePoints+xpDropped) + " / " + (level*10));
+
+        addGold(goldDropped);
+        addXP(xpDropped);
 
         target = null;
     }
@@ -266,13 +274,11 @@ public class Character {
 
     //Adds XP, checks for level up
     void addXP(int amount){
-        if ((amount + experiencePoints) >= level*10){
+        experiencePoints += amount;
+        if ((experiencePoints) >= (level*10)){
             System.out.println("Ready to level up!");
-            experiencePoints += amount;
             canLevelUp = true;
-        }
-        else {
-            experiencePoints += amount;
+            System.out.println();
         }
     }
 
@@ -284,14 +290,17 @@ public class Character {
             level++;
             maxHealth += level*5;
             System.out.println("Leveled up! You are now level: " + level);
+            System.out.println("Total XP: " + experiencePoints + "/" + (level*10));
         }
         else {
             System.out.println("You do not have enough experience to level up");
         }
     }
 
-    void addItem(String name, int weight, double value) {
-        inventory.add(new Item(name,weight,value));
+    //Adds item to inventory
+    //TODO - FIX SO ITEM CAN EITHER BE CREATED IN METHOD CALL, OR FIND ANOTHER WAY OF CREATING ITEM THROUGH METHOD
+    void addItem(Item item) {
+        inventory.add(item);
     }
 
 }
