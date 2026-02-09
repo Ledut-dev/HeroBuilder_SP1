@@ -187,6 +187,7 @@ public class Character {
     }
 
     //Attack another character, using equipped weapon if one is present. Also handles durability of both attacker and target.
+    //Aware that durability currently does nothing, but too lazy at this moment to implement functionality
     void attack(Character target){
         int damage = equippedWeapon.damage;
         System.out.println(name + " attacks " + target.name + " with their " + equippedWeapon.name);
@@ -236,6 +237,8 @@ public class Character {
         addGold(goldDropped);
         addXP(xpDropped);
 
+        //TODO - ASK TESS HOW BEST TO "DELETE" AN OBJECT. GARBAGE COLLECTOR? SOME COMMAND?
+        //TODO - SEEMINGLY ONLY GC ABLE TO REMOVE, AFTER NO MORE REFERENCES TO OBJECT IS MADE.
         target = null;
     }
 

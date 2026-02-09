@@ -5,7 +5,7 @@ public class Main {
 
     void main(){
 
-        Character hero = new Character("Rogue", "Rogue");
+        Character hero = new Character("Ledut", "Rogue");
 
         startDungeon(hero);
 
@@ -69,6 +69,8 @@ public class Main {
                         actionCounter++;
                         break;
                     case 5:
+                        hero.printInventory();
+                        System.out.println();
                         System.out.println("What item would you like to sell? (specify inventory slot)");
                         int inventorySlot = scanner.nextInt();
                         hero.sellItem(inventorySlot);
