@@ -29,28 +29,20 @@ public class Character {
         //Assigning starting equipment depending on selected class
         switch (characterClass) {
             case "Rogue":
-                Weapon starterDagger = new Weapon("Starting Dagger", 20, 100);
-                equippedWeapon = starterDagger;
-                Armor leatherArmor = new Armor("Leather Armor", 3, 100);
-                equippedArmor = leatherArmor;
+                equippedWeapon = new Weapon("Starting Dagger", 20, 100);
+                equippedArmor = new Armor("Leather Armor", 3, 100);
                 break;
             case "Warrior":
-                Weapon starterSword = new Weapon("Starting Sword", 20, 100);
-                equippedWeapon = starterSword;
-                Armor plateArmor = new Armor("Plate Armor", 4, 100);
-                equippedArmor = plateArmor;
+                equippedWeapon = new Weapon("Starting Sword", 20, 100);
+                equippedArmor = new Armor("Plate Armor", 4, 100);
                 break;
             case "Mage":
-                Weapon starterStaff = new Weapon("Starting Staff", 20, 100);
-                equippedWeapon = starterStaff;
-                Armor clothArmor = new Armor("Cloth Armor", 2, 100);
-                equippedArmor = clothArmor;
+                equippedWeapon = new Weapon("Starting Staff", 20, 100);
+                equippedArmor = new Armor("Cloth Armor", 2, 100);
                 break;
             case "Goblin":
-                Weapon goblinSword = new Weapon("Goblin Sword", 5, 100);
-                equippedWeapon = goblinSword;
-                Armor goblinArmor = new Armor("Goblin Armor", 2, 100);
-                equippedArmor = goblinArmor;
+                equippedWeapon = new Weapon("Goblin Sword", 5, 100);
+                equippedArmor = new Armor("Goblin Armor", 2, 100);
                 break;
             default:
                 System.out.println("Invalid class. Please pick on of the following options - Rogue | Warrior | Mage");
@@ -164,16 +156,16 @@ public class Character {
     }
 
     //Sells item currently in inventory for gold
-    boolean sellItem(Item item){
-        if (inventory.contains(item)){
-            inventory.remove(item);
-            gold += item.value;
+    void sellItem(int index){
+        try {
+            Item item = inventory.get((index-1));
+
+            addGold(item.value);
             System.out.println(item.name + " sold - gained "+ item.value);
-            return true;
+            inventory.remove((index-1));
         }
-        else {
-            System.out.println("You don't have this item in your inventory");
-            return false;
+        catch (Exception e){
+            System.out.println("You don't have an item in this slot");
         }
 
     }
@@ -186,9 +178,11 @@ public class Character {
         System.out.println();
 
         //Print inventory
+        int inventorySlot = 1;
         System.out.println("Inventory:");
         for (Item item : inventory){
-            System.out.println("- " + item.name + " | Value: " + item.value + "G" + " | Weight: " + item.weight);
+            System.out.println("Slot " + inventorySlot + " - | Name: " + item.name + " | Value: " + item.value + "G" + " | Weight: " + item.weight);
+            inventorySlot++;
         }
     }
 
@@ -297,10 +291,10 @@ public class Character {
         }
     }
 
-    //Adds item to inventory
-    //TODO - FIX SO ITEM CAN EITHER BE CREATED IN METHOD CALL, OR FIND ANOTHER WAY OF CREATING ITEM THROUGH METHOD
-    void addItem(Item item) {
-        inventory.add(item);
+    //Creates item on method call with parameters, then adds to inventory
+    void addItem(String name, double weight, double value){
+        inventory.add(new Item(name, weight, value));
+        System.out.println(name + " has been added to your inventory");
     }
 
 }

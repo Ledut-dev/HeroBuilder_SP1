@@ -24,7 +24,7 @@ public class Main {
 
             while (awaitingAction) {
                 System.out.println("What would you like to do?");
-                System.out.println("1 - Check inventory | 2 - Check Character | 3 - Heal | 4 - Add item | 5 - Sell item | 6 - Search for treasure | 7 - Level up | 8 - Call out to an enemy");
+                System.out.println("1 - Check inventory | 2 - Check Character | 3 - Heal | 4 - Add item | 5 - Sell item | 6 - Search for treasure | 7 - Level up | 8 - Call out to an enemy | 9 - End dungeon");
 
                 int action = scanner.nextInt();
                 scanner.nextLine();
@@ -45,11 +45,33 @@ public class Main {
                         actionCounter++;
                         break;
                     case 4:
-                        System.out.println("Not working for now - sorry for the inconvenience");
+                        String name = "";
+                        double weight = 0;
+                        double value = 0;
+
+                        System.out.println("What item would you like to add?");
+                        System.out.println("(Name), (Weight), (Value)");
+                        while (name.isEmpty()){
+                            System.out.println("Enter name: ");
+                            name = scanner.nextLine();
+                        }
+                        while (weight == 0) {
+                            System.out.println("Enter weight: ");
+                            weight = scanner.nextDouble();
+                            scanner.nextLine();
+                    }
+                        while (value == 0) {
+                            System.out.println("Enter value: ");
+                            value = scanner.nextDouble();
+                            scanner.nextLine();
+                        }
+                        hero.addItem(name, weight, value);
                         actionCounter++;
                         break;
                     case 5:
-                        System.out.println("Not working for now - sorry for the inconvenience");
+                        System.out.println("What item would you like to sell? (specify inventory slot)");
+                        int inventorySlot = scanner.nextInt();
+                        hero.sellItem(inventorySlot);
                         hero.printInventory();
                         actionCounter++;
                         break;
@@ -75,6 +97,13 @@ public class Main {
                         Character goblin = new Character("Dark Goblin", "Goblin");
                         hero.combat(goblin);
                         actionCounter++;
+                        break;
+                    case 9:
+                        System.out.println("You left the dungeon");
+                        System.out.println("Current stats:");
+                        hero.printCharacterSheet();
+                        awaitingAction = false;
+                        dungeonActive = false;
                         break;
                     default:
                         System.out.println("Invalid action");
