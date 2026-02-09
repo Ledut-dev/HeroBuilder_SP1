@@ -5,7 +5,7 @@ public class Main {
 
     void main(){
 
-        Character hero = new Character("Ledut", "Rogue");
+        Character hero = new Character("Rogue", "Rogue");
 
         startDungeon(hero);
 
