@@ -300,4 +300,6 @@ public class Character {
         System.out.println(name + " has been added to your inventory");
     }
 
+
+
 }
