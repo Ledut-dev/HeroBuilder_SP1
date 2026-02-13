@@ -11,7 +11,7 @@ public class Dungeon{
 
     void main(){}
 
-
+    //Starts the dungeon, while dungeonActive runs through dungeon actions
     void startDungeon(Character hero){
         System.out.println("=== Welcome to the dungeon ===");
         System.out.println("Good luck!");
@@ -21,7 +21,7 @@ public class Dungeon{
         }
     }
 
-
+    //Handles all player actions, as well as initiating combat
     void dungeonNextAction(Character hero){
         Scanner scanner = new Scanner(System.in);
 
