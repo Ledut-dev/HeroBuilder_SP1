@@ -9,8 +9,6 @@ public class Dungeon{
 
 }
 
-    void main(){}
-
     //Starts the dungeon, while dungeonActive runs through dungeon actions
     void startDungeon(Character hero){
         System.out.println("=== Welcome to the dungeon ===");
@@ -44,7 +42,7 @@ public class Dungeon{
                 break;
             //Heal
             case 3:
-                int baseHeal = hero.maxHealth/4;
+                int baseHeal = hero.getMaxHealth()/4;
                 hero.heal(baseHeal);
                 System.out.println("Healed for: " + baseHeal + " HP");
                 actionCounter++;

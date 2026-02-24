@@ -1,8 +1,8 @@
 public class Weapon{
 
-        String name;
-        int damage;
-        int durability;
+        private String name;
+        private int damage;
+        private int durability;
 
         //Constructor
         public Weapon(String name, int damage, int durability){
@@ -12,5 +12,26 @@ public class Weapon{
             this.durability = durability;
         }
 
+    public String getName(){
+        return this.name;
+    }
+
+    public int getDamage(){
+        return this.damage;
+    }
+
+    public int getDurability(){
+        return this.durability;
+    }
+
+    public void setDurability(int amount){
+        this.durability += amount;
+    }
+
+
+    public String toString(){
+        return "Name: " + this.name + " | Damage: " + this.damage + " | Durability: " + this.durability;
+    }
 
 }
+

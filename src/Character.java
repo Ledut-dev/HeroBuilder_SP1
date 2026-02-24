@@ -4,20 +4,19 @@ import java.util.Scanner;
 public class Character {
 
     Scanner scanner = new Scanner(System.in);
-    boolean combatActive = false;
-    int HP = 100;
-    int maxHealth = 100;
-    int level = 1;
-    int experiencePoints = 0;
-    double gold = 0;
-    boolean canLevelUp = false;
-    boolean isAlive = true;
-    boolean killedTarget = false;
-    ArrayList<Item> inventory = new ArrayList<Item>();
-    Weapon equippedWeapon;
-    Armor equippedArmor;
-    String name;
-    String currentClass;
+    private int HP = 100;
+    private int maxHealth = 100;
+    private int level = 1;
+    private int experiencePoints = 0;
+    private double gold = 0;
+    private boolean canLevelUp = false;
+    private boolean isAlive = true;
+    private boolean killedTarget = false;
+    private ArrayList<Item> inventory = new ArrayList<Item>();
+    private Weapon equippedWeapon;
+    private Armor equippedArmor;
+    private String name;
+    private String currentClass;
 
 
     //Constructor
@@ -49,14 +48,15 @@ public class Character {
         }
     }
 
-    //main
-    public void main(){}
+    public int getMaxHealth(){
+        return this.maxHealth;
+    }
 
     //Handles combat, including turn order and user input for action
     void combat(Character enemy){
 
-        combatActive = true;
-        int action = 0;
+        boolean combatActive = true;
+        int action;
         int roundCounter = 1;
 
         while (combatActive){
@@ -118,15 +118,14 @@ public class Character {
                             System.out.println("Invalid action");
                             System.out.println();
                     }
-
                 }
-                roundCounter++;
             }
             //if enemies turn
             else {
                 enemy.attack(this);
-                roundCounter++;
             }
+            roundCounter++;
+
             System.out.println();
             System.out.println("=======================");
             System.out.println();
@@ -160,8 +159,8 @@ public class Character {
         try {
             Item item = inventory.get((index-1));
 
-            addGold(item.value);
-            System.out.println(item.name + " sold - gained "+ item.value);
+            addGold(item.getValue());
+            System.out.println(item.getName() + " sold - gained "+ item.getValue());
             inventory.remove((index-1));
         }
         catch (Exception e){
@@ -173,15 +172,15 @@ public class Character {
     //Prints current inventory, including equipped weapon / armor
     void printInventory(){
         //Print equipped weapon/armor
-        System.out.println("Weapon: " + equippedWeapon.name +" | Damage: " + equippedWeapon.damage +" | Durability: " + equippedWeapon.durability);
-        System.out.println("Armor: " + equippedArmor.name +" | Defense: " + equippedArmor.defense +" | Durability: " + equippedArmor.durability);
+        System.out.println(equippedWeapon.toString());
+        System.out.println(equippedArmor.toString());
         System.out.println();
 
         //Print inventory
         int inventorySlot = 1;
         System.out.println("Inventory:");
         for (Item item : inventory){
-            System.out.println("Slot " + inventorySlot + " - | Name: " + item.name + " | Value: " + item.value + "G" + " | Weight: " + item.weight);
+            System.out.println("Slot " + inventorySlot + " - " + item.toString());
             inventorySlot++;
         }
     }
@@ -189,30 +188,30 @@ public class Character {
     //Attack another character, using equipped weapon if one is present. Also handles durability of both attacker and target.
     //Aware that durability currently does nothing, but too lazy at this moment to implement functionality
     void attack(Character target){
-        int damage = equippedWeapon.damage;
-        System.out.println(name + " attacks " + target.name + " with their " + equippedWeapon.name);
+        int damage = equippedWeapon.getDamage();
+        System.out.println(name + " attacks " + target.name + " with their " + equippedWeapon.getName());
         System.out.println();
 
         //If target will die from hit
         if (target.HP < damage){
             System.out.println(target.name + " has been slain!");
-            equippedWeapon.durability -= damage/2;
+            equippedWeapon.setDurability(damage/2);
             kill(target);
             killedTarget = true;
         }
         //If target armor defense is higher than attackers weapon attack
-        else if (damage < target.equippedArmor.defense){
+        else if (damage < target.equippedArmor.getDefense()){
             System.out.println("Couldn't break through!");
-            System.out.println(target.name + "'s " + target.equippedArmor.name + " overpowers your attack!");
-            target.equippedArmor.durability -= damage/4;
-            equippedWeapon.durability -= damage/2;
+            System.out.println(target.name + "s " + target.equippedArmor.getName() + " holds strong against your attack!");
+            target.equippedArmor.setDurability(damage/4);
+            equippedWeapon.setDurability(damage/2);
         }
         //Resolve damage normally
         else {
-            target.HP -= damage-target.equippedArmor.defense;
+            target.HP -= damage-target.equippedArmor.getDefense();
             //Not having a double is fine even if dividing by 4, I prefer taking less durability damage rounded down.
-            target.equippedArmor.durability -= damage/4;
-            equippedWeapon.durability -= damage/2;
+            target.equippedArmor.setDurability(damage/4);
+            equippedWeapon.setDurability(damage/2);
             System.out.println(target.name + " took " + damage + " damage!");
         }
     }

@@ -1,8 +1,8 @@
 public class Item {
 
-    String name;
-    double weight;
-    double value;
+    private String name;
+    private double weight;
+    private double value;
 
     //Constructor
     public Item(String name, double weight, double value){
@@ -12,8 +12,21 @@ public class Item {
         this.value = value;
     }
 
+    public String getName(){
+        return this.name;
+    }
 
+    public double getWeight(){
+        return this.weight;
+    }
 
+    public double getValue(){
+        return this.value;
+    }
+
+    public String toString(){
+        return "Name: " + this.name + " | Weight: " + this.weight + " | Value: " + this.value;
+    }
 
 
 

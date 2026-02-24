@@ -1,8 +1,8 @@
 public class Armor {
 
-    String name;
-    int defense;
-    int durability;
+    private String name;
+    private int defense;
+    private int durability;
 
     //Constructor
     public Armor(String name, int defense, int durability){
@@ -13,5 +13,25 @@ public class Armor {
 
     }
 
+    public String getName(){
+        return this.name;
+    }
+
+    public int getDefense(){
+        return this.defense;
+    }
+
+    public int getDurability(){
+        return this.durability;
+    }
+
+    public void setDurability(int amount){
+        this.durability += amount;
+    }
+
+
+    public String toString(){
+        return "Name: " + this.name + " | Defense: " + this.defense + " | Durability: " + this.durability;
+    }
 
 }
