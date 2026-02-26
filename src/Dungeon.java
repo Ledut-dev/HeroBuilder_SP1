@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class Dungeon{
 
-    int actionCounter = 0;
-    boolean dungeonActive = true;
+    private int actionCounter = 0;
+    private boolean dungeonActive = true;
 
     public Dungeon(){
 

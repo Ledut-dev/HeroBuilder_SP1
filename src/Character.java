@@ -53,7 +53,7 @@ public class Character {
     }
 
     //Handles combat, including turn order and user input for action
-    void combat(Character enemy){
+    public void combat(Character enemy){
 
         boolean combatActive = true;
         int action;
@@ -134,7 +134,7 @@ public class Character {
     }
 
     //Print shorter versions of stats for combat, includes name, class, level, health/maxhealth, and gold
-    void printCombatStats(){
+    private void printCombatStats(){
         System.out.println("=== " + name + "(" + currentClass + ") ===");
         System.out.println("Level: " + level + " | Health: " + HP + "/" + maxHealth + " | Gold: " + gold);
     }
