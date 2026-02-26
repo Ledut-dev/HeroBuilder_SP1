@@ -12,7 +12,7 @@ public class Character {
     private boolean canLevelUp = false;
     private boolean isAlive = true;
     private boolean killedTarget = false;
-    private ArrayList<Item> inventory = new ArrayList<Item>();
+    private ArrayList<Item> inventory = new ArrayList<>();
     private Weapon equippedWeapon;
     private Armor equippedArmor;
     private String name;
@@ -51,6 +51,7 @@ public class Character {
     public int getMaxHealth(){
         return this.maxHealth;
     }
+
 
     //Handles combat, including turn order and user input for action
     public void combat(Character enemy){
@@ -236,8 +237,8 @@ public class Character {
         addGold(goldDropped);
         addXP(xpDropped);
 
-        //TODO - ASK TESS HOW BEST TO "DELETE" AN OBJECT. GARBAGE COLLECTOR? SOME COMMAND?
-        //TODO - SEEMINGLY ONLY GC ABLE TO REMOVE, AFTER NO MORE REFERENCES TO OBJECT IS MADE.
+        //TODO - CLARIFY HOW TO DELETE INSTANCE OF OBJECT
+        //TODO - SEEMINGLY GC REMOVES INSTANCE AFTER NO MORE REFERENCES TO THE INSTANCE IS MADE.
         target = null;
     }
 
