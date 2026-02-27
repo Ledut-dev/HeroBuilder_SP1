@@ -173,8 +173,8 @@ public class Character {
     //Prints current inventory, including equipped weapon / armor
     void printInventory(){
         //Print equipped weapon/armor
-        System.out.println(equippedWeapon.toString());
-        System.out.println(equippedArmor.toString());
+        System.out.println(equippedWeapon);
+        System.out.println(equippedArmor);
         System.out.println();
 
         //Print inventory
